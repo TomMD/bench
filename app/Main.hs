@@ -142,7 +142,7 @@ renderResult vars res =
 renderHeader :: [Text] -> [Text] -> Text
 renderHeader hdrs macroVars = T.concat (intersperse ", " fields)
  where
-  fields    = "Memory Usage (MB)" : macroVars ++ hdrs
+  fields    = "Memory Usage (Bytes)" : macroVars ++ hdrs
 
 -- Read in the template, apply the macros, and output a list of test files.
 buildTestsIO :: FilePath -> [(String, [String])] -> IO [([(Text,Text)],Text)]

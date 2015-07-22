@@ -64,18 +64,6 @@ readProcessMemory cmd args input =
       ExitSuccess   -> return (output,mem)
       ExitFailure r -> processFailedException "readCreateProcess" cmd args r
 
-
-
-  -- do (sin, sout, serr, ph) <- createProcess (proc bin args)
-  --    mv  <- memoryMonitor ph
-  --    maybe (return ()) (\h -> hPutStr h stdIn) sin
-  --    err <- maybe (return "") hGetContents serr
-  --    out <- maybe (return "") hGetContents sout
-  --    X.evaluate (rnf err)
-  --    X.evaluate (rnf out)
-  --    _   <- waitForProcess ph
-  --    (out ++ err,) <$> takeMVar mv
-
 -- wrapper so we can get exceptions with the appropriate function name.
 withCreateProcess_
   :: String
