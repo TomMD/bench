@@ -165,7 +165,7 @@ runTests cfg = mapM (runTest cfg)
 
 runTest :: Settings -> ([(Text,Text)], Text) -> IO Result
 runTest (Settings {..}) (benchSettings,benchContents) =
-    withTempFile "." ("tempForBinBench-" ++ bin <.> "m") $ \file hdl -> do
+    withTempFile "." ("tempForBinBench-" ++ sanitize bin <.> "m") $ \file hdl -> do
         T.hPutStr hdl benchContents
         hClose hdl
         threadDelay 250000 -- XXX ugly race it seems with hClose and file access on some platforms.
@@ -174,6 +174,8 @@ runTest (Settings {..}) (benchSettings,benchContents) =
         let ws = words raw ++ repeat "error"
             rd = T.pack . (ws !!)
         return $ Result benchSettings mem (map rd indicies)
+ where
+     sanitize = takeFileName
 
 logRawData (LogTo hdl) st raw mem =
     T.hPutStr hdl $ T.concat [ "\n***\nsettings: "
